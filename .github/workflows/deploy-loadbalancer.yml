@@ -30,8 +30,8 @@ jobs:
     name: Deploy Load Balancer to ${{ inputs.environment }}
     
     # Calls the platform's reusable workflow
-    # IMPORTANT: Update these values → owner/repository/.github/workflows/workflow-file@ref
-    uses: your-org/platform-repo-name/.github/workflows/platform-deploy-loadbalancer.yml@main
+    # Points to: github.com/vankadarasuresh/GitHub_Actions_Platform
+    uses: vankadarasuresh/GitHub_Actions_Platform/.github/workflows/platform-deploy-loadbalancer.yml@main
     with:
       environment: ${{ inputs.environment }}
       tfvars_file: tfvars/${{ inputs.environment }}/load-balancer.tfvars
