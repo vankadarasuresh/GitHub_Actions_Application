@@ -1,0 +1,48 @@
+name: Deploy Virtual Machines to Azure
+
+# This workflow calls the centralized platform workflow from your platform repository
+# It's simple and delegated - your platform team maintains the terraform logic
+#
+# How it works:
+# 1. User selects environment (dev/staging/prod)
+# 2. This workflow calls the platform's deploy workflow
+# 3. Platform workflow handles all terraform execution
+# 4. Results displayed back to user
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select deployment environment'
+        required: true
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+# 🔧 CONFIGURATION: Customize for your organization
+# Step 1: Replace 'your-org' with your GitHub organization name
+# Step 2: Replace 'platform-repo-name' with your platform repository name
+# Step 3: Replace 'main' with your desired branch or tag
+
+jobs:
+  deploy-vms:
+    name: Deploy Virtual Machines to ${{ inputs.environment }}
+    
+    # Calls the platform's reusable workflow
+    # IMPORTANT: Update these values → owner/repository/.github/workflows/workflow-file@ref
+    uses: your-org/platform-repo-name/.github/workflows/platform-deploy-vm.yml@main
+    with:
+      environment: ${{ inputs.environment }}
+      tfvars_file: tfvars/${{ inputs.environment }}/virtual-machines.tfvars
+      terraform_version: '1.5.0'
+    
+    secrets:
+      # Pass all required Azure authentication secrets
+      # These must be configured in GitHub repository secrets
+      # See: Settings → Secrets and variables → Actions → Repository secrets
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
