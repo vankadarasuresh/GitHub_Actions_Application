@@ -14,8 +14,6 @@ on:
 
 jobs:
   deploy-storage:
-    name: Deploy Storage Account to ${{ inputs.environment }}
-    environment: ${{ inputs.environment }}
     uses: vankadarasuresh/GitHub_Actions_Platform/.github/workflows/platform-deploy-storage.yml@main
     with:
       environment: ${{ inputs.environment }}

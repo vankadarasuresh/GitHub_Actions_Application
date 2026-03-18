@@ -14,8 +14,6 @@ on:
 
 jobs:
   deploy-vms:
-    name: Deploy Virtual Machines to ${{ inputs.environment }}
-    environment: ${{ inputs.environment }}
     uses: vankadarasuresh/GitHub_Actions_Platform/.github/workflows/platform-deploy-vm.yml@main
     with:
       environment: ${{ inputs.environment }}

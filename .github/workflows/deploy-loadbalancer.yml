@@ -14,8 +14,6 @@ on:
 
 jobs:
   deploy-loadbalancer:
-    name: Deploy Load Balancer to ${{ inputs.environment }}
-    environment: ${{ inputs.environment }}
     uses: vankadarasuresh/GitHub_Actions_Platform/.github/workflows/platform-deploy-loadbalancer.yml@main
     with:
       environment: ${{ inputs.environment }}
