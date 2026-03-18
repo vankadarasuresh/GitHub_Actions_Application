@@ -1,0 +1,28 @@
+name: Deploy Resource Group to Azure
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select deployment environment'
+        required: true
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+jobs:
+  deploy-resource-group:
+    uses: vankadarasuresh/GitHub_Actions_Platform/.github/workflows/platform-deploy-resource-group.yml@main
+    with:
+      environment: ${{ inputs.environment }}
+      tfvars_file: tfvars/${{ inputs.environment }}/resource-group.tfvars
+      terraform_version: '1.5.0'
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
